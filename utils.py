@@ -30,22 +30,10 @@ def plt_cases(df, location):
     fig.suptitle(location, fontsize=30)
 
     ax[0].bar(x, y_nc)
-    ax[0].set_title(f'New cases [{location}]')
-    ax[0].set_ylabel(f'Active cases [{location}]')
+    ax[0].set_title(f'New cases [{location}], last update {df[location].index[-1]}')
+    ax[0].set_ylabel(f'New cases [{location}]')
 
     ax[1].plot(x, y_ac, marker='.')
     ax[1].set_title(f'Active cases [{location}]')
     ax[1].set_xlabel('Date')
     ax[1].set_ylabel(f'Active cases [{location}]')
-
-
-# def plt_cases(df, location):
-#     fig, ax = plt.subplots(2, 1, figsize=(15,9), constrained_layout=True)
-#
-#     df[location]['New cases'].plot.bar(subplots=True, ax=ax[0])
-#     ax[0].set_title(f'New cases [{location}]')
-#
-#     df[location]['Active cases'].plot(subplots=True, ax=ax[1])
-#     ax[1].set_title(f'Active cases [{location}]')
-#
-#     plt.show()
