@@ -38,6 +38,10 @@ def plt_cases(df, location):
     ax[1].set_xlabel('Date')
     ax[1].set_ylabel(f'Active Cases')
 
+def plot_locations(df, locations):
+    for loc in locations:
+        plt_cases(df, loc)
+
 api = CovId19Data(force=False)
 # DataFrame with cases for all available countries
 df = {}
