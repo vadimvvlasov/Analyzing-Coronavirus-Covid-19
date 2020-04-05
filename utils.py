@@ -6,8 +6,6 @@ import matplotlib.dates as dates
 from matplotlib import style
 style.use('seaborn-poster')
 
-api = CovId19Data(force=False)
-
 def get_df(country):
     rez = api.get_history_by_country(country)
     data = rez[list(rez.keys())[0]]
@@ -39,3 +37,15 @@ def plt_cases(df, location):
     ax[1].set_title(f'Active Cases [{location}]')
     ax[1].set_xlabel('Date')
     ax[1].set_ylabel(f'Active Cases')
+
+api = CovId19Data(force=False)
+# DataFrame with cases for all available countries
+df = {}
+selected_columns = ['confirmed', 'recovered', 'deaths', 'Active Cases', 'Daily New Cases']
+for loc in api.show_available_countries():
+    df[loc] = get_df(loc)
+    df[loc] = add_cases(df[loc]) # calculate 'New cases' and 'Active cases' and add to the DataFrame
+    if 'world' in df:
+        df['world'] += df[loc][selected_columns]
+    else:
+        df['world'] = df[loc][selected_columns]
