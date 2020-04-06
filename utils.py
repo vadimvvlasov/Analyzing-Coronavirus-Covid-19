@@ -30,11 +30,11 @@ def plt_cases(df, location):
     fig.suptitle(location, fontsize=30)
 
     ax[0].bar(x, y_nc)
-    ax[0].set_title(f'Daily New Cases [{location}], last update {df[location].index[-1]}')
+    ax[0].set_title(f'Daily New Cases    /updated {df[location].index[-1].strftime("%d-%b-%Y")}/')
     ax[0].set_ylabel(f'Daily New Cases')
 
     ax[1].plot(x, y_ac, marker='.')
-    ax[1].set_title(f'Active Cases [{location}]')
+    ax[1].set_title(f'Active Cases')
     ax[1].set_xlabel('Date')
     ax[1].set_ylabel(f'Active Cases')
 
