@@ -16,7 +16,8 @@ def get_df(country):
 
 def add_cases(df):
     df['Active Cases'] = df['confirmed'] - df['recovered'] - df['deaths']
-    df['Daily New Cases'] = df['confirmed'].diff(); df['Daily New Cases'][0] = df['Daily New Cases'][1]
+    df['Daily New Cases'] = df['confirmed'].diff().abs()
+    df['Daily New Cases'][0] = df['Daily New Cases'][1]
     return df
 
 def plot_cases(cases):
