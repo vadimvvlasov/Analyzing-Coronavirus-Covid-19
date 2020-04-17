@@ -27,17 +27,21 @@ def add_cases(df):
 def plt_cases2(df, location):
     """
     plot 2 graphs for selected location
-    1 - Daily New Cases
+    1 - Daily New Cases vs Daily New Recovered
     2 - Active Cases
     """
-    x, y_nc, y_ac = df[location].index, df[location]['Daily New Cases'], df[location]['Active Cases']
+    x, y_nc, y_ac, y_nr = (df[location].index, df[location]['Daily New Cases'], df[location]['Active Cases'],
+                           df[location]['Daily New Recovered'])
 
-    fig, ax = plt.subplots(2, 1, figsize=(15,8), constrained_layout=True)
+    fig, ax = plt.subplots(2, 1, figsize=(15,12), constrained_layout=True)
     fig.suptitle(location, fontsize=30)
 
-    ax[0].bar(x, y_nc)
+    ax[0].bar(x, y_nc, label='Новые случаи заболевших за день')
+    ax[0].plot(x, y_nr, color='k', marker='.',label='Новые случаи выздоровивших за день')
     ax[0].set_title(f'Daily New Cases    /updated {df[location].index[-1].strftime("%d-%b-%Y")}/')
-    ax[0].set_ylabel(f'Daily New Cases')
+    ax[0].set_ylabel(f'Daily Cases')
+    ax[0].legend()
+
 
     ax[1].plot(x, y_ac, marker='.')
     ax[1].set_title(f'Active Cases')
