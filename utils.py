@@ -42,7 +42,6 @@ def plt_cases2(df, location):
     ax[0].set_ylabel(f'Daily Cases')
     ax[0].legend()
 
-
     ax[1].plot(x, y_ac, marker='.')
     ax[1].set_title(f'Active Cases')
     ax[1].set_xlabel('Date')
@@ -86,6 +85,36 @@ def plot_locations2(df, locations):
 def plot_locations3(df, locations):
     for loc in locations:
         plt_cases3(df, loc)
+
+def detect_peak(df):
+    """
+    returns:
+    global_peak_detection - True if peak passed, otherwise Folse
+    countries_peak_detection - DataFrame(countries, peac_condition=True if peak passed)
+    """
+    world_peak_detection =  False
+    countries_peak_detection = []
+    for loc, dataframe in df.items():
+        peak_cond = dataframe['Daily New Recovered'][-1] > dataframe['Daily New Cases'][-1]
+        if loc == 'world':
+            world_peak_detection = peak_cond
+            continue
+        countries_peak_detection.append([loc, peak_cond,  dataframe['confirmed'][-1]])
+    df_cpd = pd.DataFrame(countries_peak_detection)
+    print_peak_condition(world_peak_detection, df_cpd)
+    return world_peak_detection, df_cpd
+
+def print_peak_condition(world_peak_detection, df_cpd):
+    threshold = 500
+    g_temp = '1. Глобальный пик заражения COVID-19'
+    if world_peak_detection:
+        print(g_temp + ' уже ПРОЙДЕН')
+    else:
+        print(g_temp + ' еще НЕ ПРОЙДЕН')
+        
+    print(f'2. Пик пройден в {df_cpd[df_cpd[1]==1].count()[0]/df_cpd.count()[0]:.1%} стран.')
+    print(f'3. Список стран c "Total Cases">{threshold}, где пик заражения пройден:')
+    print(', '.join(df_cpd[(df_cpd[2]>threshold) & (df_cpd[1]==1)][0]))
 
 
 api = CovId19Data(force=False)
