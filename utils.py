@@ -105,16 +105,17 @@ def detect_peak(df):
     return world_peak_detection, df_cpd
 
 def print_peak_condition(world_peak_detection, df_cpd):
-    threshold = 500
+    threshold = 1000
+    df_cpd_thresh = df_cpd[df_cpd[2]>threshold]
     g_temp = '1. Глобальный пик заражения COVID-19'
     if world_peak_detection:
         print(g_temp + ' уже ПРОЙДЕН')
     else:
         print(g_temp + ' еще НЕ ПРОЙДЕН')
         
-    print(f'2. Пик пройден в {df_cpd[df_cpd[1]==1].count()[0]/df_cpd.count()[0]:.1%} стран.')
+    print(f'2. Пик заражения пройден в {df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]}/{df_cpd_thresh.count()[0]}={df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]/df_cpd_thresh.count()[0]:.1%} стран.')
     print(f'3. Список стран c "Total Cases">{threshold}, где пик заражения пройден:')
-    print(', '.join(df_cpd[(df_cpd[2]>threshold) & (df_cpd[1]==1)][0]))
+    print('|'.join(df_cpd[(df_cpd[2]>threshold) & (df_cpd[1]==1)][0]))
 
 
 api = CovId19Data(force=False)
