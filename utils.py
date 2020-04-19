@@ -36,8 +36,8 @@ def plt_cases2(df, location):
     fig, ax = plt.subplots(2, 1, figsize=(15,12), constrained_layout=True)
     fig.suptitle(location, fontsize=30)
 
-    ax[0].bar(x, y_nc, label='Новые случаи заболевших за день')
-    ax[0].plot(x, y_nr, color='k', marker='.',label='Новые случаи выздоровивших за день')
+    ax[0].bar(x, y_nc, label='Daily New Cases     / Новые случаи заболевших за день')
+    ax[0].plot(x, y_nr, color='k', marker='.',label='Daily New Recovered / Новые случаи выздоровивших за день')
     ax[0].set_title(f'Daily New Cases    /updated {df[location].index[-1].strftime("%d-%b-%Y")}/')
     ax[0].set_ylabel(f'Daily Cases')
     ax[0].legend()
@@ -70,8 +70,8 @@ def plt_cases3(df, location):
     ax[1].set_xlabel('Date')
     ax[1].set_ylabel(f'Active Cases')
     
-    ax[2].plot(x, y_nc, marker='.',label='Новые случаи заболевших за день')
-    ax[2].plot(x, y_nr, marker='.',label='Новые случаи выздоровивших за день')
+    ax[2].plot(x, y_nc, marker='.',label='Daily New Cases     / Новые случаи заболевших за день')
+    ax[2].plot(x, y_nr, marker='.',label='Daily New Recovered / Новые случаи выздоровивших за день')
     ax[2].set_title(f'(New Cases)vs(New Recovered)')
     ax[2].set_xlabel('Date')
     ax[2].set_ylabel(f'Daily Cases')
@@ -86,11 +86,11 @@ def plot_locations3(df, locations):
     for loc in locations:
         plt_cases3(df, loc)
 
-def detect_peak(df):
+def detect_peak(df, lang='ru'):
     """
     returns:
     global_peak_detection - True if peak passed, otherwise Folse
-    countries_peak_detection - DataFrame(countries, peac_condition=True if peak passed)
+    countries_peak_detection - DataFrame(countries, peak_condition=True if peak passed)
     """
     world_peak_detection =  False
     countries_peak_detection = []
@@ -101,7 +101,10 @@ def detect_peak(df):
             continue
         countries_peak_detection.append([loc, peak_cond,  dataframe['confirmed'][-1]])
     df_cpd = pd.DataFrame(countries_peak_detection)
-    print_peak_condition(world_peak_detection, df_cpd)
+    if lang == 'ru':
+        print_peak_condition(world_peak_detection, df_cpd)
+    else:
+        print_peak_condition_en(world_peak_detection, df_cpd)
     return world_peak_detection, df_cpd
 
 def print_peak_condition(world_peak_detection, df_cpd):
@@ -115,6 +118,19 @@ def print_peak_condition(world_peak_detection, df_cpd):
         
     print(f'2. Пик заражения пройден в {df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]}/{df_cpd_thresh.count()[0]}={df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]/df_cpd_thresh.count()[0]:.1%} стран.')
     print(f'3. Список стран c "Total Cases">{threshold}, где пик заражения пройден:')
+    print('|'.join(df_cpd[(df_cpd[2]>threshold) & (df_cpd[1]==1)][0]))
+    
+def print_peak_condition_en(world_peak_detection, df_cpd):
+    threshold = 1000
+    df_cpd_thresh = df_cpd[df_cpd[2]>threshold]
+    g_temp = '1. The global peak of COVID-19 infection is '
+    if world_peak_detection:
+        print(g_temp + ' already PASSED')
+    else:
+        print(g_temp + ' NOT PASSED yet')
+        
+    print(f'2. Infection peak passed in {df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]}/{df_cpd_thresh.count()[0]}={df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]/df_cpd_thresh.count()[0]:.1%} countries.')
+    print(f'3. List of countries with "Total Cases">{threshold}, where infection peak has been passed:')
     print('|'.join(df_cpd[(df_cpd[2]>threshold) & (df_cpd[1]==1)][0]))
 
 
