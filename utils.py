@@ -112,12 +112,12 @@ def print_peak_condition(world_peak_detection, df_cpd):
     df_cpd_thresh = df_cpd[df_cpd[2]>threshold]
     g_temp = '1. Глобальный пик заражения COVID-19'
     if world_peak_detection:
-        print(g_temp + ' уже ПРОЙДЕН')
+        print(g_temp + ' уже ПРОЙДЕН\n')
     else:
-        print(g_temp + ' еще НЕ ПРОЙДЕН')
+        print(g_temp + ' еще НЕ ПРОЙДЕН\n')
         
-    print(f'2. Пик заражения пройден в {df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]}/{df_cpd_thresh.count()[0]}={df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]/df_cpd_thresh.count()[0]:.1%} стран.')
-    print(f'3. Список стран c "Total Cases">{threshold}, где пик заражения пройден:')
+    print(f'2. Пик заражения пройден в {df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]}/{df_cpd_thresh.count()[0]}={df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]/df_cpd_thresh.count()[0]:.1%} стран.\n')
+    print(f'3. Список стран c "Total Cases">{threshold}, где пик заражения пройден:\n')
     print('|'.join(df_cpd[(df_cpd[2]>threshold) & (df_cpd[1]==1)][0]))
     
 def print_peak_condition_en(world_peak_detection, df_cpd):
@@ -125,12 +125,12 @@ def print_peak_condition_en(world_peak_detection, df_cpd):
     df_cpd_thresh = df_cpd[df_cpd[2]>threshold]
     g_temp = '1. The global peak of COVID-19 infection is '
     if world_peak_detection:
-        print(g_temp + ' already PASSED')
+        print(g_temp + ' already PASSED\n')
     else:
-        print(g_temp + ' NOT PASSED yet')
+        print(g_temp + ' NOT PASSED yet\n')
         
-    print(f'2. Infection peak passed in {df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]}/{df_cpd_thresh.count()[0]}={df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]/df_cpd_thresh.count()[0]:.1%} countries.')
-    print(f'3. List of countries with "Total Cases">{threshold}, where infection peak has been passed:')
+    print(f'2. Infection peak passed in {df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]}/{df_cpd_thresh.count()[0]}={df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]/df_cpd_thresh.count()[0]:.1%} countries.\n')
+    print(f'3. List of countries with "Total Cases">{threshold}, where infection peak has been passed:\n')
     print('|'.join(df_cpd[(df_cpd[2]>threshold) & (df_cpd[1]==1)][0]))
 
 
