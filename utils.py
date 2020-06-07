@@ -17,10 +17,10 @@ def get_df(country):
 def add_cases(df):
     df['Active Cases'] = df['confirmed'] - df['recovered'] - df['deaths']
     
-    df['Daily New Cases'] = df['confirmed'].diff().abs()
+    df['Daily New Cases'] = df['confirmed'].diff()#.abs()
     df['Daily New Cases'][0] = df['Daily New Cases'][1]
     
-    df['Daily New Recovered'] = df['recovered'].diff().abs(); 
+    df['Daily New Recovered'] = df['recovered'].diff()#.abs(); 
     df['Daily New Recovered'][0] = df['Daily New Recovered'][1]
     return df
 
