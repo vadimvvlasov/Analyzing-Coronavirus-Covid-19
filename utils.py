@@ -16,11 +16,11 @@ def get_df(country):
 
 def add_cases(df):
     df['Active Cases'] = df['confirmed'] - df['recovered'] - df['deaths']
-    
+
     df['Daily New Cases'] = df['confirmed'].diff()#.abs()
     df['Daily New Cases'][0] = df['Daily New Cases'][1]
-    
-    df['Daily New Recovered'] = df['recovered'].diff()#.abs(); 
+
+    df['Daily New Recovered'] = df['recovered'].diff()#.abs();
     df['Daily New Recovered'][0] = df['Daily New Recovered'][1]
     return df
 
@@ -46,7 +46,8 @@ def plt_cases2(df, location):
     ax[1].set_title(f'Active Cases')
     ax[1].set_xlabel('Date')
     ax[1].set_ylabel(f'Active Cases')
-    
+
+
 def plt_cases3(df, location):
     """
     plot 3 graphs for selected location
@@ -69,7 +70,7 @@ def plt_cases3(df, location):
     ax[1].set_title(f'Active Cases')
     ax[1].set_xlabel('Date')
     ax[1].set_ylabel(f'Active Cases')
-    
+
     ax[2].plot(x, y_nc, marker='.',label='Daily New Cases     / Новые случаи заболевших за день')
     ax[2].plot(x, y_nr, marker='.',label='Daily New Recovered / Новые случаи выздоровивших за день')
     ax[2].set_title(f'(New Cases)vs(New Recovered)')
@@ -81,7 +82,7 @@ def plt_cases3(df, location):
 def plot_locations2(df, locations):
     for loc in locations:
         plt_cases2(df, loc)
-        
+
 def plot_locations3(df, locations):
     for loc in locations:
         plt_cases3(df, loc)
@@ -115,11 +116,11 @@ def print_peak_condition(world_peak_detection, df_cpd):
         print(g_temp + ' уже ПРОЙДЕН\n')
     else:
         print(g_temp + ' еще НЕ ПРОЙДЕН\n')
-        
+
     print(f'2. Пик заражения пройден в {df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]}/{df_cpd_thresh.count()[0]}={df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]/df_cpd_thresh.count()[0]:.1%} стран.\n')
     print(f'3. Список стран c "Total Cases">{threshold}, где пик заражения пройден:\n')
     print('|'.join(df_cpd[(df_cpd[2]>threshold) & (df_cpd[1]==1)][0]))
-    
+
 def print_peak_condition_en(world_peak_detection, df_cpd):
     threshold = 1000
     df_cpd_thresh = df_cpd[df_cpd[2]>threshold]
@@ -128,7 +129,7 @@ def print_peak_condition_en(world_peak_detection, df_cpd):
         print(g_temp + ' already PASSED\n')
     else:
         print(g_temp + ' NOT PASSED yet\n')
-        
+
     print(f'2. Infection peak passed in {df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]}/{df_cpd_thresh.count()[0]}={df_cpd_thresh[df_cpd_thresh[1]==1].count()[0]/df_cpd_thresh.count()[0]:.1%} countries.\n')
     print(f'3. List of countries with "Total Cases">{threshold}, where infection peak has been passed:\n')
     print('|'.join(df_cpd[(df_cpd[2]>threshold) & (df_cpd[1]==1)][0]))
